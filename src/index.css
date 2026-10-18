@@ -10,42 +10,62 @@ body,
 
 body {
   font-family: system-ui, sans-serif;
-  /* 
-  background-color: #870909;
-  background-image: url(/public/bg.jpg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  min-height: 100vh; */
+  background: transparent;
+}
+
+body[data-window-mode="dashboard"] {
+  background: #0a111b;
+}
+
+body[data-window-mode="companion"] {
+  background: transparent;
+}
+
+html[data-window-mode="dashboard"],
+html[data-window-mode="companion"] {
+  background: transparent;
 }
 
 .reminder-bubble {
   position: relative;
-  top: 0px;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
   width: max-content;
-  max-width: 240px;
-  padding: 14px 18px;
-  border-radius: 16px;
-  background: #fff2d8;
+  max-width: min(190px, calc(100vw - 28px));
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255, 241, 209, 0.96);
   color: #242424;
   text-align: center;
-  box-shadow: 0 8px 24px #0003;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
   font-family: system-ui, sans-serif;
+  font-size: 0.8rem;
   z-index: 10;
+  border: 1px solid rgba(224, 163, 32, 0.25);
+  overflow-wrap: anywhere;
+  box-sizing: border-box;
+  line-height: 1.35;
+}
+
+.reminder-bubble.compact {
+  padding: 8px 10px;
+  font-size: 0.74rem;
 }
 
 .reminder-bubble strong {
   color: #c77713;
+  font-size: 1em;
 }
 
 .reminder-bubble p {
-  margin: 6px 0;
+  margin: 4px 0;
   font-weight: 700;
+  line-height: 1.3;
 }
 
 .reminder-bubble span {
-  font-size: 12px;
-  color: #666;
+  font-size: 0.75em;
+  color: inherit;
+  opacity: 0.72;
 }

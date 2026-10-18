@@ -1,22 +1,31 @@
 {
-  "name": "pixelfriend",
+  "name": "desktop-companion",
   "main": "electron/main.cjs",
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "description": "A Linux desktop companion for developers, built with Electron, React, TypeScript, and Three.js. It combines a transparent animated character with a separate dashboard for companion settings, reminders, and offline Git commit-message reviews",
+  "author": {
+    "name": "Vaibhav",
+    "email": "vaibhavkhush124@gmal.com"
+  },
   "scripts": {
     "dev": "vite --host",
     "build": "tsc -b && vite build",
     "electron:dev": "concurrently -k \"vite --host 127.0.0.1\" \"wait-on http://127.0.0.1:5173 && electron .\"",
     "electron:start": "npm run build && electron .",
-    "dist:linux": "npm run build && electron-builder --linux AppImage",
+    "preview": "vite preview",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "dist": "npm run build && electron-builder",
+    "dist:win": "npm run build && electron-builder --win nsis --x64",
+    "dist:mac": "npm run build && electron-builder --mac dmg zip",
+    "dist:linux": "npm run build && electron-builder --linux AppImage deb",
+    "dist:all": "npm run build && electron-builder --win nsis --mac dmg zip --linux AppImage deb",
+    "clean": "node -e \"const fs=require('node:fs'); for (const p of ['dist','release']) fs.rmSync(p,{recursive:true,force:true})\""
   },
   "build": {
-    "appId": "com.pixelfriend.desktop",
-    "productName": "PixelFriend",
-    "electronDist": "electron-dist",
+    "appId": "com.desktopcompanion.desktop",
+    "productName": "Desktop Companion",
     "files": [
       "dist/**/*",
       "electron/**/*",
@@ -24,8 +33,41 @@
     ],
     "linux": {
       "target": [
-        "AppImage"
-      ]
+        "AppImage",
+        "deb"
+      ],
+      "category": "Utility",
+      "synopsis": "A floating desktop companion for developers"
+    },
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "Desktop-Companion-Setup-${version}-x64.${ext}"
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.utilities"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "deleteAppDataOnUninstall": false
     }
   },
   "dependencies": {
